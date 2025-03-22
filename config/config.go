@@ -8,4 +8,7 @@ type AppConfig struct {
 	QuestionAndAnswerTopicId    int    `env:"QUESTION_AND_ANSWER_TOPIC_ID"`
 	SpreadsheetId               string `env:"SPREADSHEET_ID"`
 	GoogleSheetCredsBase64      string `env:"GOOGLE_SHEET_CREDS_BASE64"`
+	ServiceEnv                  string `env:"SERVICE_ENV"`
+	AnnouncementSheetName       string `env:"ANNOUNCEMENT_SHEET_NAME"`
+	SubmitSheetName             string `env:"SUBMIT_SHEET_NAME"`
 }

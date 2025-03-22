@@ -1,13 +1,12 @@
 module github.com/cesc1802/english-with-me-bot
 
-go 1.23.0
-
-toolchain go1.23.7
+go 1.24.1
 
 require (
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/joho/godotenv v1.5.1
+	golang.org/x/oauth2 v0.28.0
 	google.golang.org/api v0.227.0
 )
 
@@ -29,7 +28,6 @@ require (
 	go.opentelemetry.io/otel/trace v1.35.0 // indirect
 	golang.org/x/crypto v0.36.0 // indirect
 	golang.org/x/net v0.37.0 // indirect
-	golang.org/x/oauth2 v0.28.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250313205543-e70fdf4c4cb4 // indirect

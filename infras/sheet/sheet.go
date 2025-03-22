@@ -2,35 +2,32 @@ package sheet
 
 import (
 	"context"
+	"encoding/base64"
 	"log"
 
 	"github.com/cesc1802/english-with-me-bot/config"
+	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
 )
 
-func NewSheetConn(config *config.AppConfig) sheets.Service {
-	credsPath := "sheet.json" // Path to your service account JSON key file
-	ctx := context.Background()
-	srv, err := sheets.NewService(ctx, option.WithCredentialsFile(credsPath))
+func NewSheetConn(appCfg *config.AppConfig) *sheets.Service {
+	// load google sheets api credentials
+	credBytes, err := base64.StdEncoding.DecodeString(appCfg.GoogleSheetCredsBase64)
 	if err != nil {
-		log.Fatalf("Unable to create Sheets client: %v", err)
+		log.Fatalf("Failed to decode credentials: %v", err)
+	}
+	// authen google
+	config, err := google.JWTConfigFromJSON(credBytes, "https://www.googleapis.com/auth/spreadsheets")
+	if err != nil {
+		log.Fatalf("Failed to create JWT config: %v", err)
+	}
+	// init sheets service
+	client := config.Client(context.Background())
+	srv, err := sheets.NewService(context.Background(), option.WithHTTPClient(client))
+	if err != nil {
+		log.Fatalf("Failed to create Sheets service: %v", err)
 	}
 
-	return *srv
-
-	//readRange := "announcement!A1:E1"
-	//srv.Spreadsheets.Values.Get(os.Getenv("SHEET_ID"), readRange)
-	//resp, err := srv.Spreadsheets.Values.Get(os.Getenv("SHEET_ID"), readRange).Do()
-	//if err != nil {
-	//	log.Fatalf("Unable to read data from sheet: %v", err)
-	//}
-	//
-	//if len(resp.Values) == 0 {
-	//	fmt.Println("No data found.")
-	//} else {
-	//	for _, row := range resp.Values {
-	//		fmt.Println(row)
-	//	}
-	//}
+	return srv
 }
