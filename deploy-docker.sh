@@ -5,9 +5,9 @@
 set -e
 
 # Configuration variables - replace these with your specific values
-VPS_USER="username"               # Your VPS username
-VPS_IP="your.vps.ip.address"      # Your VPS IP address
-VPS_PORT="22"                     # SSH port on VPS
+VPS_USER="cesc"               # Your VPS username
+VPS_IP="10.6.1.83"      # Your VPS IP address
+VPS_PORT="322"                     # SSH port on VPS
 SSH_KEY="~/.ssh/telegram-bot_rsa" # Path to your SSH private key
 IMAGE_NAME="english-with-me-bot"  # Your Docker image name
 IMAGE_TAG="latest"                # Your Docker image tag

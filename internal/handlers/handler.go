@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"log"
 	"strings"
 
 	"github.com/cesc1802/english-with-me-bot/config"
@@ -66,5 +67,33 @@ func (h *IncomingUpdateHandler) HandleIncomingUpdates(ctx context.Context) {
 			h.handleAnnouncement(ctx, incomingUpdate)
 			continue
 		}
+
+		// handle download photo command
+		// Check if the message is a command
+		if incomingUpdate.Message.IsCommand() {
+			// Prepare a response message
+			msg := tgbotapi.NewMessage(incomingUpdate.Message.Chat.ID, "")
+			args := incomingUpdate.Message.CommandArguments()
+
+			// Handle different commands
+			switch incomingUpdate.Message.Command() {
+			case "get_photo_id":
+				msg.Text = GetPhotoURL(h.bot, strings.TrimSpace(args))
+			default:
+				msg.Text = "I don't know that command"
+			}
+
+			// Send the response
+			if _, err := h.bot.Send(msg); err != nil {
+				log.Panic(err)
+			}
+
+			continue
+		}
 	}
+}
+
+func GetPhotoURL(bot *tgbotapi.BotAPI, fileID string) string {
+	url, _ := bot.GetFileDirectURL(fileID)
+	return url
 }
